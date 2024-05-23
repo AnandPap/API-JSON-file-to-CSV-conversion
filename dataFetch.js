@@ -1,4 +1,4 @@
-// Change for your own API if needed, as it is, it is used for fetching from TMDB API
+// Change for your own API if needed. As it is, it is used for fetching from TMDB API
 const tmdbBaseURL = "https://api.themoviedb.org/3/movie/";
 
 // Meant as a measure against overloading rate limit on TMDB site (currently, it sits at 50 requests per second range)
