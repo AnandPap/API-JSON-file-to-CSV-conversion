@@ -10,12 +10,12 @@ function formCsvData(json) {
   return csvData.join("\n");
 }
 
-function downloadCsvFile(csvData) {
+function downloadCsvFile(csvData, name) {
   const blob = new Blob([csvData], { type: "text/csv" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.setAttribute("href", url);
-  a.setAttribute("download", "data.csv");
+  a.setAttribute("download", name);
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
