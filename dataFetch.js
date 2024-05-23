@@ -1,6 +1,5 @@
 // Change for your own API if needed, as it is, it is used for fetching from TMDB API
 const tmdbBaseURL = "https://api.themoviedb.org/3/movie/";
-const TMDB_API_KEY = "secret";
 
 // Meant as a measure against overloading rate limit on TMDB site (currently, it sits at 50 requests per second range)
 function delay(ms) {
@@ -11,7 +10,7 @@ async function fetchMovieIDs(amount = 1000) {
   const ids = [];
 
   for (let pageNumber = 1; pageNumber < amount / 20 + 1; pageNumber++) {
-    let data = await fetch(tmdbBaseURL + `top_rated?page=${pageNumber}&api_key=` + TMDB_API_KEY);
+    let data = await fetch(tmdbBaseURL + `top_rated?page=${pageNumber}&api_key=` + process.env.API_KEY);
     data = await data.json();
     const res = data.results;
     for (let j = 0; j < res.length; j++) res[j].id ? ids.push(res[j].id) : null;
@@ -25,7 +24,7 @@ async function fetchMovieDetails(movieIDs) {
   const movies = [];
 
   for (let movieIndex = 0; movieIndex < movieIDs.length; movieIndex++) {
-    let data = await fetch(tmdbBaseURL + `${movieIDs[movieIndex]}?api_key=` + TMDB_API_KEY);
+    let data = await fetch(tmdbBaseURL + `${movieIDs[movieIndex]}?api_key=` + process.env.API_KEY);
     const res = await data.json();
     movies.push({
       title: '"' + (res.title || res.original_title) + '"',
