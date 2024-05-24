@@ -1,8 +1,9 @@
-// Change for your own API if needed. As it is, it is used for fetching from TMDB API
-const tmdbBaseURL = "https://api.themoviedb.org/3/movie/";
+// Change baseURL for different API and insert corresponding API key
+// Modify fetch functions per your needs. The basic idea and foundation is layed down.
+const baseURL = "https://api.themoviedb.org/3/movie/";
 const API_KEY = "";
 
-// Meant as a measure against overloading rate limit on TMDB site (currently, it sits at 50 requests per second range)
+// Meant as a measure against overloading rate limit on TMDB site (currently, rate limit sits at 50 requests per second range)
 function delay(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -13,12 +14,12 @@ async function fetchMovieIDs(amount) {
 
   for (let pageNumber = 1; pageNumber < amount / 20 + 1; pageNumber++) {
     try {
-      let data = await fetch(tmdbBaseURL + `top_rated?page=${pageNumber}&api_key=` + API_KEY);
+      let data = await fetch(baseURL + `top_rated?page=${pageNumber}&api_key=` + API_KEY);
       if (!data.ok) throw new Error("Error occured during fetching process");
       data = await data.json();
       const res = data.results;
       for (let j = 0; j < res.length; j++) res[j].id ? ids.push(res[j].id) : null;
-      if (pageNumber !== 0 && pageNumber % 45 === 0) await delay(500);
+      if (pageNumber !== 0 && pageNumber % 45 === 0) await delay(750);
     } catch (err) {
       tryAttempt < 3 ? (pageNumber--, tryAttempt++) : (tryAttempt = 1);
     }
@@ -33,7 +34,7 @@ async function fetchMovieDetails(movieIDs) {
 
   for (let movieIndex = 0; movieIndex < movieIDs.length; movieIndex++) {
     try {
-      let data = await fetch(tmdbBaseURL + `${movieIDs[movieIndex]}?api_key=` + API_KEY);
+      let data = await fetch(baseURL + `${movieIDs[movieIndex]}?api_key=` + API_KEY);
       if (!data.ok) throw new Error("Error occured during fetching process");
       const res = await data.json();
       movies.push({
@@ -62,7 +63,7 @@ async function fetchMovieDetails(movieIDs) {
         revenue: res.revenue || 0,
         spoken_language: res.spoken_languages[0]?.name || "N/A",
       });
-      if (movieIndex !== 0 && movieIndex % 45 === 0) await delay(500);
+      if (movieIndex !== 0 && movieIndex % 45 === 0) await delay(750);
     } catch (err) {
       tryAttempt < 3 ? (movieIndex--, tryAttempt++) : (tryAttempt = 1);
     }
