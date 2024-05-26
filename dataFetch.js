@@ -1,5 +1,5 @@
 // Change baseURL for different API and insert corresponding API key
-// Modify fetch functions per your needs. The basic idea and foundation is layed down.
+// Modify fetch functions per your need. The basic idea and foundation is laid down.
 const baseURL = "https://api.themoviedb.org/3/movie/";
 const API_KEY = "";
 
@@ -42,7 +42,6 @@ async function fetchMovieDetails(movieIDs) {
         belongs_to_collection: '"' + (res.belongs_to_collection?.name ?? "None") + '"',
         release_year: res.release_date?.slice(0, 4) || "N/A",
         runtime: res.runtime || 0,
-        // R_rated: res.adult ? "Yes" : "No",
         origin_country: res.origin_country[0] || "N/A",
         language: res.original_language || "N/A",
         genres: (function () {
@@ -53,7 +52,6 @@ async function fetchMovieDetails(movieIDs) {
           }
           return genres.join("/");
         })(),
-        // status: res.status || "N/A",
         popularity: res.popularity || 0,
         vote_count: res.vote_count || 0,
         vote_average: res.vote_average || 0,

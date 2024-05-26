@@ -1,4 +1,4 @@
-// Returned as a string which is required for correct conversion to CSV file for download later on
+// Returns string which is required for correct conversion to CSV file later on
 function formCsvData(json) {
   const csvData = [];
   const csvFields = Object.keys(json[0]);
